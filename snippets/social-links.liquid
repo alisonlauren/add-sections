@@ -1,0 +1,36 @@
+{% comment %}{% assign social_links = 'amazon apple dribbble email facebook flickr foursquare github google google-plus instagram linkedin pinterest rss skype soundcloud spotify stack-exchange stack-overflow tumblr twitter vimeo youtube' | split: ' ' %}
+{% for link in social_links %}
+  {% assign social_link = link | prepend: 'social-links-' %}
+  {% unless settings[social_link] == blank %}
+    {% assign link_href = settings[social_link] %}
+    {% assign icon = link %}
+
+    {% case link %}
+    {% when 'email' %}
+      {% assign link_href = settings[social_link] | prepend: 'mailto:' %}
+      {% assign icon = 'envelope' %}
+    {% when 'rss' %}
+      {% assign blog_rss = settings[social_link] %}
+      {% if blogs[blog_rss].url != blank %}
+        {% assign link_href = blogs[blog_rss].url | append: '.atom' %}
+      {% else %}
+        {% assign link_href = '' %}
+      {% endif %}
+    {% when 'vimeo' %}
+      {% assign icon = icon | append: '-square' %}
+    {% endcase %}
+    
+    {% if link_href != blank %}
+    <a href="{{ link_href }}" title="{{ link }}" target="_blank">
+    	<i class="fa fa-{{ icon }} fa-fw {% if social-links %}fa-{{ social-links }}{% endif %}"></i>
+    </a>
+    {% endif %}
+  {% endunless %}
+{% endfor %}{% endcomment %}
+
+<div class="social-links clearfix">
+       <a href="https://www.facebook.com/unkle/" target="_blank" class="social-link facebook smem-social-link" title="Unkle on Facebook"><i class="social-icon fa fa-facebook"></i><span class="fontawesome-text" style="display:none;">facebook</span></a>
+       <a href="https://twitter.com/unkleofficial" target="_blank" class="social-link twitter smem-social-link" title="Unkle on Twitter"><i class="social-icon fa fa-twitter"></i><span class="fontawesome-text" style="display:none;">twitter</span></a>
+       <a href="https://www.instagram.com/unkleofficial/?hl=en" target="_blank" class="social-link instagram smem-social-link" title="Unkle on Instagram"><i class="social-icon fa fa-instagram"></i><span class="fontawesome-text" style="display:none;">instagram</span></a>
+       <a href="https://www.youtube.com/channel/UCdQOZu4CbH25aaku-sSR1Zw" target="_blank" class="social-link youtube smem-social-link" title="Unkle on Youtube"><i class="social-icon fa fa-youtube"></i><span class="fontawesome-text" style="display:none;">youtube</span></a>
+     </div>
